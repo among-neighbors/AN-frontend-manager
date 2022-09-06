@@ -1,26 +1,46 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Table, TableBody, TableContainer, TableRow } from '@mui/material';
+import { Table, TableBody, TableRow } from '@mui/material';
 import { TableRowForComment } from '../molecules/TableRow';
+import styled from 'styled-components';
+import { CommentData, Obj } from '~/others/integrateInterface';
+import { accessTokenState } from '~/others/store';
+import myAxios from '~/others/myAxios';
 
-const CommentForm = () => {
-  const [value, setValue] = React.useState('');
+interface CommentFormProps {
+  type: string;
+  accessToken: accessTokenState;
+  boardId: string;
+  getComments: (type: string, boardId: string) => Promise<void>;
+}
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-  };
-
-  const handlePost = (event: React.FormEvent<HTMLFormElement>) => {
+const CommentForm: React.FC<CommentFormProps> = ({ type, accessToken, boardId, getComments }) => {
+  const handlePostComment = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(value);
+    const data = new FormData(event.currentTarget);
+    const comment = data.get('comment')?.toString() ?? '';
+    const body = {
+      boardId,
+      text: comment,
+    };
+    const res = await myAxios(
+      'post',
+      `${commentAPIbyType[type]}`,
+      body,
+      undefined,
+      accessToken.profileAccessToken,
+    );
+    (event.target as HTMLFormElement).reset();
+    getComments(type, boardId);
   };
 
   return (
     <Box
       component='form'
-      onSubmit={handlePost}
+      onSubmit={handlePostComment}
       action='#'
       sx={{
         display: 'flex',
@@ -33,16 +53,15 @@ const CommentForm = () => {
           width: 'calc(100% - 130px)',
         },
       }}
-      noValidate
       autoComplete='off'
     >
       <TextField
         label='댓글 입력'
+        name='comment'
         multiline
         maxRows={4}
-        value={value}
-        onChange={handleChange}
         variant='standard'
+        required
       />
       <Button sx={{ whiteSpace: 'nowrap', height: '40px' }} type='submit' variant='outlined'>
         댓글 달기
@@ -51,65 +70,64 @@ const CommentForm = () => {
   );
 };
 
-interface Comment {
-  writer: string;
-  comment: string;
-  date: string;
+interface CommentProps {
+  type: string;
+  accessToken: accessTokenState;
+  boardId: string;
 }
 
-interface CommentsProp {
-  comments: Comment[];
-}
+const Comment: React.FC<CommentProps> = ({ type, accessToken, boardId }) => {
+  const { accountAccessToken, profileAccessToken } = accessToken;
+  const [comments, setComments] = useState<CommentData[] | null>(null);
 
-const Comments = ({ comments }: CommentsProp) => {
-  React.useEffect(() => {}, []);
+  const getComments = async (type: string, boardId: string) => {
+    const res = await myAxios(
+      'get',
+      `${commentAPIbyType[type]}${boardId}?page=1&count=500`,
+      null,
+      true,
+      accountAccessToken,
+    );
+    setComments(res.data.response.list);
+  };
 
+  useEffect(() => {
+    getComments(type, boardId);
+  }, []);
   return (
-    <>
+    <CommentContainer className='comment'>
+      <CommentForm
+        type={type}
+        getComments={getComments}
+        boardId={boardId}
+        accessToken={accessToken}
+      />
       <Table>
         <TableBody>
-          {comments.map((comment, index) => {
-            return (
-              <TableRow key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
-                <TableRowForComment comment={comment} />
-              </TableRow>
-            );
-          })}
+          {comments &&
+            comments.map((comment, index) => {
+              return (
+                <TableRow key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <TableRowForComment commentData={comment} />
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
-    </>
+    </CommentContainer>
   );
 };
 
-const Comment = () => {
-  return (
-    <>
-      <div className='comment'>
-        <CommentForm />
-        <Comments
-          comments={[
-            {
-              writer: '홍길동',
-              comment: '댓글입니당~',
-              date: '2022.08.14',
-            },
-            {
-              writer: '홍길동',
-              comment: '댓글입니당하이댓글입니당하이댓글입니당하이',
-              date: '2022.08.14',
-            },
-          ]}
-        />
-      </div>
-      <style jsx>{`
-        .comment {
-          max-width: 1200px;
-          width: 100%;
-          height: 200px;
-        }
-      `}</style>
-    </>
-  );
+const commentAPIbyType: Obj<string> = {
+  notice: `api/v1/comments/notices/`,
+  complaint: `api/v1/comments/reports/`,
+  community: `api/v1/comments/communities/`,
 };
+
+const CommentContainer = styled.div`
+  max-width: 1200px;
+  width: 100%;
+  height: 200px;
+`;
 
 export default Comment;
