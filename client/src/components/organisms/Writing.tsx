@@ -37,7 +37,8 @@ const Writing: React.FC<WritingProps> = ({ type, profileAccessToken }) => {
             expiredDate: '2030-09-06T07:43:05.207Z',
             scope: 'ALL',
           };
-    const res = await myAxios('post', `${NewAPIbyType[type]}`, body, undefined, profileAccessToken);
+    // const res =
+    await myAxios('post', `${NewAPIbyType[type]}`, body, undefined, profileAccessToken);
     navigation(`/${type}`);
   };
 

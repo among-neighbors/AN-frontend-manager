@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -48,9 +47,9 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleOpenHelpCallModal = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElHelpCall(event.currentTarget);
-  };
+  // const handleOpenHelpCallModal = (event: React.MouseEvent<HTMLElement>) => {
+  //   setAnchorElHelpCall(event.currentTarget);
+  // };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -72,11 +71,11 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
     handleRefreshProfileAccessToken('');
   };
 
-  const handleChangeProfile = async () => {
-    handleCloseUserMenu();
-    await myAxios('get', `api/v1/auth/profiles/logout`, null, true, profileAccessToken);
-    handleRefreshProfileAccessToken('');
-  };
+  // const handleChangeProfile = async () => {
+  //   handleCloseUserMenu();
+  //   await myAxios('get', `api/v1/auth/profiles/logout`, null, true, profileAccessToken);
+  //   handleRefreshProfileAccessToken('');
+  // };
 
   return (
     <AppBar position='fixed' sx={{ height: '70px' }}>
