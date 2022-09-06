@@ -128,7 +128,7 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
             }}
           >
             <SquareImg src='../../../public/img/iconWhite.png' />
-            이웃사이
+            이웃사이 관리자
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -181,7 +181,7 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
             sx={{
               display: { xs: 'flex', md: 'none' },
               position: 'absolute',
-              left: 'calc(50% - 65px)',
+              left: 'calc(50% - 105px)',
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
@@ -192,7 +192,7 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
             }}
           >
             <SquareImg src='../../../public/img/iconWhite.png' />
-            이웃사이
+            이웃사이 관리자
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
