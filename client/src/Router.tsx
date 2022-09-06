@@ -30,11 +30,11 @@ const Router = ({ state }: RouterProps) => {
             <Route path='/' element={<HomePage />} />
             <Route path='/sign' element={<SignPage />} />
             <Route path='/notice' element={<ListPage type='notice' />} />
+            <Route path='/notice/writing' element={<WritingPage type='notice' />} />
             <Route path='/notice'>
               <Route path=':id' element={<ViewPage type='notice' />} />
             </Route>
             <Route path='/complaint' element={<ListPage type='complaint' />} />
-            <Route path='/complaint/writing' element={<WritingPage type='complaint' />} />
             <Route path='/complaint'>
               <Route path=':id' element={<ViewPage type='complaint' />} />
             </Route>

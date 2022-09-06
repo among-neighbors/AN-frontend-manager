@@ -2,7 +2,7 @@ import { Obj } from './integrateInterface';
 
 const APIbyType: Obj<string> = {
   notice: `api/v1/notices`,
-  complaint: `api/v1/reports`,
+  complaint: `api/v1/manager/reports`,
   community: `api/v1/communities`,
 };
 

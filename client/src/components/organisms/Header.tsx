@@ -39,7 +39,6 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [anchorElHelpCall, setAnchorElHelpCall] = React.useState<null | HTMLElement>(null);
-  const [profileName, setProfileName] = useState('');
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -78,16 +77,6 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
     await myAxios('get', `api/v1/auth/profiles/logout`, null, true, profileAccessToken);
     handleRefreshProfileAccessToken('');
   };
-
-  const getProfileName = async () => {
-    const res = await myAxios('get', `api/v1/profiles/me`, null, true, profileAccessToken);
-    setProfileName(res.data.response.name);
-  };
-
-  useEffect(() => {
-    if (profileAccessToken === '') return;
-    getProfileName();
-  }, [profileAccessToken]);
 
   return (
     <AppBar position='fixed' sx={{ height: '70px' }}>
@@ -232,34 +221,6 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
                   }}
                 >
                   <IconButton
-                    onClick={handleOpenHelpCallModal}
-                    className='helpCallBtn'
-                    sx={{
-                      zIndex: 1,
-                      background: '#fff',
-                      width: '40px',
-                      height: '40px',
-                    }}
-                  >
-                    <Avatar
-                      className='nonHover'
-                      sx={{
-                        width: '28px',
-                        height: '28px',
-                      }}
-                      src='../../../public/img/sirenRed.png'
-                    />
-                    <Avatar
-                      className='hover'
-                      sx={{
-                        width: '28px',
-                        height: '28px',
-                        display: 'none',
-                      }}
-                      src='../../../public/img/sirenWhite.png'
-                    />
-                  </IconButton>
-                  <IconButton
                     onClick={handleHelpSideBar}
                     className='helpListBtn'
                     sx={{
@@ -324,7 +285,7 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
                 <Box sx={{ flexGrow: 0 }}>
                   <Tooltip title='Open settings'>
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar>{`${profileName}`.substr(0, 2)}</Avatar>
+                      <Avatar>관리</Avatar>
                     </IconButton>
                   </Tooltip>
                   <Menu
@@ -343,9 +304,6 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    <MenuItem onClick={handleOpenHelpCallModal}>
-                      <Typography textAlign='center'>도움 요청</Typography>
-                    </MenuItem>
                     <MenuItem
                       onClick={() => {
                         handleHelpSideBar();
@@ -353,9 +311,6 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
                       }}
                     >
                       <Typography textAlign='center'>도움 리스트</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={handleChangeProfile}>
-                      <Typography textAlign='center'>프로필 전환</Typography>
                     </MenuItem>
                     <MenuItem onClick={handleLogOutAndRedirect}>
                       <Typography textAlign='center'>로그아웃</Typography>

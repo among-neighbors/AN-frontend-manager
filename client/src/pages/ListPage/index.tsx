@@ -65,7 +65,7 @@ const ListPage = ({ type, accountAccessToken, isReadyForRequestAPI }: ListPagePr
       ) : (
         <></>
       )}
-      {type === 'complaint' || type === 'community' ? (
+      {type === 'notice' || type === 'community' ? (
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'right', paddingRight: '20px' }}>
           <Button component={Link} to={`/${type}/writing`} variant='contained'>
             {buttonTextByType[type]}
@@ -95,13 +95,13 @@ const handleList = (list: DeliverdTypePostDataArray): ProcessedTypePostDataArray
     });
   }
   if (isDeliveredNoticePostDataArray(list)) {
-    return list.map(({ id, title, content, createdDate, writer, scope }) => {
+    return list.map(({ id, title, content, createdDate, writer, scope, isMine }) => {
       return {
         id,
         title,
         content,
         scope,
-        writer,
+        writer: writer.name,
         date: handledDate(createdDate),
       };
     });
@@ -119,7 +119,7 @@ const handleList = (list: DeliverdTypePostDataArray): ProcessedTypePostDataArray
 };
 
 const buttonTextByType: Obj<string> = {
-  complaint: '민원 작성',
+  notice: '공지 작성',
   community: '글쓰기',
 };
 

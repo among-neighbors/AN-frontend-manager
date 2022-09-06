@@ -56,8 +56,8 @@ const TableNav: React.FC<TableNavProps> = ({ type, tableNavReducer, isPageMove =
 };
 
 const tableListByType: Obj<string[]> = {
-  notice: ['통합 공지', '라인 공지'],
-  community: ['통합 게시글', '라인 게시글'],
+  notice: ['통합 공지'],
+  community: ['통합 게시글'],
 };
 
 const queryByType: Obj<string[]> = {

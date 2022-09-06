@@ -11,7 +11,7 @@ const WritingPage = ({ type }: WritingPageProps) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <PageHeader type={type} />
-      {type === 'community' ? <TableNav type={type} /> : <></>}
+      {type === 'community' || type === 'notice' ? <TableNav type={type} /> : <></>}
       <Writing type={type} />
     </Box>
   );

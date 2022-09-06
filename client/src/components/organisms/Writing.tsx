@@ -34,6 +34,8 @@ const Writing: React.FC<WritingProps> = ({ type, profileAccessToken }) => {
         : {
             title: data.get('title'),
             content: data.get('content'),
+            expiredDate: '2030-09-06T07:43:05.207Z',
+            scope: 'ALL',
           };
     const res = await myAxios('post', `${NewAPIbyType[type]}`, body, undefined, profileAccessToken);
     navigation(`/${type}`);
@@ -121,11 +123,13 @@ const Writing: React.FC<WritingProps> = ({ type, profileAccessToken }) => {
 };
 
 const submitTextByTypes: Obj<string> = {
+  notice: '공지 작성',
   community: '글 작성',
   complaint: '민원 작성',
 };
 
 const NewAPIbyType: Obj<string> = {
+  notice: `api/v1/manager/notices`,
   complaint: `api/v1/reports/new`,
   community: `api/v1/communities`,
 };
