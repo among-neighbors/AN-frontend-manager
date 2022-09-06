@@ -11,8 +11,8 @@ import {
   isDeliveredNoticePostData,
   DeliverdTypePostData,
   ProcessedTypePostData,
+  Obj,
 } from '~/others/integrateInterface';
-import { APIbyType } from '~/others/integrateVariable';
 import { connect } from 'react-redux';
 import { accessTokenState, RootState } from '~/others/store';
 
@@ -30,7 +30,7 @@ const ViewPage = ({ type, accessToken, isReadyForRequestAPI }: ViewPageProps) =>
   const getViewData = async (id: string) => {
     const res = await myAxios(
       'get',
-      `${APIbyType[type]}/${id}`,
+      `${APIbyTypeForView[type]}/${id}`,
       null,
       true,
       accessToken.accountAccessToken,
@@ -53,22 +53,26 @@ const ViewPage = ({ type, accessToken, isReadyForRequestAPI }: ViewPageProps) =>
       date: viewData.createdDate,
     };
     if (isDeliveredNoticePostData(viewData)) {
-      const { writer, scope, expiredDate, releaseLine } = viewData;
+      const { writer, scope, expiredDate, releaseLine, isMine } = viewData;
       setBoardData({
         ...commonViewData,
-        writer,
+        writer: writer.name,
         scope,
+        isMine,
       });
       return;
     }
 
     if (isDeliveredCommunityPostData(viewData)) {
-      const { writer, scope, category, like } = viewData;
+      const { writer, scope, category, like, isMine } = viewData;
       setBoardData({
         ...commonViewData,
-        writer: `${writer.lineName}동 ${writer.houseName}호 ${writer.name}`,
+        writer: `${writer.lineName === '000' ? `` : `${writer.lineName}동 ${writer.houseName}호 `}${
+          writer.name
+        }`,
         scope,
         category,
+        isMine,
       });
       return;
     }
@@ -92,6 +96,12 @@ const ViewPage = ({ type, accessToken, isReadyForRequestAPI }: ViewPageProps) =>
       )}
     </Box>
   );
+};
+
+const APIbyTypeForView: Obj<string> = {
+  notice: `api/v1/notices`,
+  complaint: `api/v1/reports`,
+  community: `api/v1/communities`,
 };
 
 const mapStateToProps = (state: RootState) => {

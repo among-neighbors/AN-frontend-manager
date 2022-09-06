@@ -66,7 +66,7 @@ interface DeliveredCommunityPostData extends DeliveredCommonPostData {
   scope: Scope;
   category: Category;
   like: number;
-  isMine: boolean;
+  isMine: Bool;
 }
 
 interface DeliveredNoticePostData extends DeliveredCommonPostData {
@@ -77,7 +77,7 @@ interface DeliveredNoticePostData extends DeliveredCommonPostData {
   scope: Scope;
   expiredDate: string;
   releaseLine: string;
-  isMine: boolean;
+  isMine: Bool;
 }
 
 interface DeliveredComplaintPostData extends DeliveredCommonPostData {
