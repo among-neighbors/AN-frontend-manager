@@ -1,0 +1,114 @@
+import { Box } from '@mui/system';
+import { useEffect, useState } from 'react';
+import TableNav from '~/components/molecules/TableNav';
+import Board from '~/components/organisms/Board';
+import Comment from '~/components/organisms/Comment';
+import PageHeader from '~/components/organisms/PageHeader';
+import { useLocation } from 'react-router-dom';
+import myAxios from '~/others/myAxios';
+import {
+  isDeliveredCommunityPostData,
+  isDeliveredNoticePostData,
+  DeliverdTypePostData,
+  ProcessedTypePostData,
+  Obj,
+} from '~/others/integrateInterface';
+import { connect } from 'react-redux';
+import { accessTokenState, RootState } from '~/others/store';
+
+interface ViewPageProps {
+  type: string;
+  accessToken: accessTokenState;
+  isReadyForRequestAPI: boolean;
+}
+
+const ViewPage = ({ type, accessToken, isReadyForRequestAPI }: ViewPageProps) => {
+  const [viewData, setViewData] = useState<DeliverdTypePostData | null>(null);
+  const [boardData, setBoardData] = useState<ProcessedTypePostData | null>(null);
+  const location = useLocation();
+
+  const getViewData = async (id: string) => {
+    const res = await myAxios(
+      'get',
+      `${APIbyTypeForView[type]}/${id}`,
+      null,
+      true,
+      accessToken.accountAccessToken,
+    );
+    setViewData(res.data.response);
+  };
+
+  useEffect(() => {
+    if (!isReadyForRequestAPI) return;
+    const [pre, type, id] = location.pathname.split('/');
+    getViewData(id);
+  }, [isReadyForRequestAPI]);
+
+  useEffect(() => {
+    if (!viewData) return;
+    const commonViewData = {
+      id: viewData.id,
+      title: viewData.title,
+      content: viewData.content,
+      date: viewData.createdDate,
+    };
+    if (isDeliveredNoticePostData(viewData)) {
+      const { writer, scope, expiredDate, releaseLine, isMine } = viewData;
+      setBoardData({
+        ...commonViewData,
+        writer: writer.name,
+        scope,
+        isMine,
+      });
+      return;
+    }
+
+    if (isDeliveredCommunityPostData(viewData)) {
+      const { writer, scope, category, like, isMine } = viewData;
+      setBoardData({
+        ...commonViewData,
+        writer: `${writer.lineName === '000' ? `` : `${writer.lineName}동 ${writer.houseName}호 `}${
+          writer.name
+        }`,
+        scope,
+        category,
+        isMine,
+      });
+      return;
+    }
+
+    const { writer } = viewData;
+    setBoardData({
+      ...commonViewData,
+      writer: `${writer.lineName}동 ${writer.houseName}호`,
+    });
+  }, [viewData]);
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <PageHeader type={type} />
+      {type === 'community' || type === 'notice' ? <TableNav type={type} /> : <></>}
+      {boardData && <Board type={type} boardData={boardData} />}
+      {boardData && (type === 'community' || type === 'complaint') ? (
+        <Comment type={type} boardId={boardData.id} accessToken={accessToken} />
+      ) : (
+        <></>
+      )}
+    </Box>
+  );
+};
+
+const APIbyTypeForView: Obj<string> = {
+  notice: `api/v1/notices`,
+  complaint: `api/v1/reports`,
+  community: `api/v1/communities`,
+};
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    accessToken: state.accessTokenReducer,
+    isReadyForRequestAPI: state.readyForRequestAPIReducer,
+  };
+};
+
+export default connect(mapStateToProps)(ViewPage);

@@ -1,19 +1,11 @@
-import SignIn from '~/components/organisms/SignInForm';
+import { Box } from '@mui/system';
+import SignIn from '~/components/organisms/SignIn';
 
-const SignPage = () => {
+const SignPage: React.FC = () => {
   return (
-    <>
-      <div className='signPage'>
-        <SignIn />
-      </div>
-      <style jsx>{`
-        .signPage {
-          display: flex;
-          align-items: center;
-          height: calc(100vh - 70px);
-        }
-      `}</style>
-    </>
+    <Box sx={{ display: 'flex', alignItems: 'center', height: 'calc(100vh - 70px)' }}>
+      <SignIn />
+    </Box>
   );
 };
 
