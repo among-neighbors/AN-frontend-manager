@@ -95,7 +95,7 @@ const handleList = (list: DeliverdTypePostDataArray): ProcessedTypePostDataArray
     });
   }
   if (isDeliveredNoticePostDataArray(list)) {
-    return list.map(({ id, title, content, createdDate, writer, scope, isMine }) => {
+    return list.map(({ id, title, content, createdDate, writer, scope }) => {
       return {
         id,
         title,

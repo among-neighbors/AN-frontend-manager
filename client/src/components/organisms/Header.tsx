@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -20,6 +20,7 @@ import ArrowForward from '@mui/icons-material/ArrowForward';
 import {
   accessTokenState,
   handleHelpSideBar,
+  handlePutProfile,
   handleRefreshAccountAccessToken,
   handleRefreshProfileAccessToken,
   RootState,
@@ -48,9 +49,9 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleOpenHelpCallModal = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElHelpCall(event.currentTarget);
-  };
+  // const handleOpenHelpCallModal = (event: React.MouseEvent<HTMLElement>) => {
+  //   setAnchorElHelpCall(event.currentTarget);
+  // };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -72,11 +73,21 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
     handleRefreshProfileAccessToken('');
   };
 
-  const handleChangeProfile = async () => {
-    handleCloseUserMenu();
-    await myAxios('get', `api/v1/auth/profiles/logout`, null, true, profileAccessToken);
-    handleRefreshProfileAccessToken('');
+  const getProfile = async () => {
+    const res = await myAxios('get', `api/v1/profiles/me`, null, true, profileAccessToken);
+    const { id, name, lineName, houseName } = res.data.response;
+    handlePutProfile({
+      id,
+      name,
+      lineName,
+      houseName,
+    });
   };
+
+  useEffect(() => {
+    if (profileAccessToken === '') return;
+    getProfile();
+  }, [profileAccessToken]);
 
   return (
     <AppBar position='fixed' sx={{ height: '70px' }}>
