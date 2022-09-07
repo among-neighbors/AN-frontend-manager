@@ -6,6 +6,12 @@ const APIbyType: Obj<string> = {
   community: `api/v1/communities`,
 };
 
+const managerAPIbyType: Obj<string> = {
+  notice: `api/v1/manager/notices`,
+  complaint: `api/v1/manager/reports`,
+  community: `api/v1/communities`,
+};
+
 const stringByScope: Obj<string> = {
   ALL: '전체',
   LINE: '라인',
@@ -35,4 +41,11 @@ const ColorsByProfileIndex = [
   '#D98D62',
 ];
 
-export { APIbyType, stringByScope, handledDate, stringByCategory, ColorsByProfileIndex };
+export {
+  APIbyType,
+  managerAPIbyType,
+  stringByScope,
+  handledDate,
+  stringByCategory,
+  ColorsByProfileIndex,
+};
