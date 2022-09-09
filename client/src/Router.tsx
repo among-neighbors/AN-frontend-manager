@@ -20,7 +20,7 @@ interface RouterProps {
 const Router = ({ state }: RouterProps) => {
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename='/manager'>
         <ThemeProvider theme={theme(false)}>
           <Checker />
           <Header />
