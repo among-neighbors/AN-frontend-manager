@@ -4,7 +4,6 @@ import liveReload from 'vite-plugin-live-reload';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import fs from 'fs';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   server: {
     https: {
