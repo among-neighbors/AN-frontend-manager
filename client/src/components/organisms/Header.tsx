@@ -19,7 +19,6 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import {
   accessTokenState,
-  handleHelpSideBar,
   handlePutProfile,
   handleRefreshAccountAccessToken,
   handleRefreshProfileAccessToken,
