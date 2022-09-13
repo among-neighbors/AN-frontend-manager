@@ -216,7 +216,7 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
               </Button>
             ) : (
               <>
-                <Box
+                {/* <Box
                   sx={{
                     display: {
                       xs: 'none',
@@ -245,7 +245,7 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
                   >
                     +3
                   </IconButton>
-                </Box>
+                </Box> */}
 
                 <Menu
                   anchorEl={anchorElHelpCall}
@@ -315,14 +315,14 @@ const Header: React.FC<HeaderProps> = ({ isReadyForRequestAPI, accessToken }) =>
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    <MenuItem
+                    {/* <MenuItem
                       onClick={() => {
                         handleHelpSideBar();
                         handleCloseUserMenu();
                       }}
                     >
                       <Typography textAlign='center'>도움 리스트</Typography>
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem onClick={handleLogOutAndRedirect}>
                       <Typography textAlign='center'>로그아웃</Typography>
                     </MenuItem>
