@@ -323,6 +323,6 @@ server {
 
 ## **6. Open Source**
 
-[MIT License](LICENSE)
+[APACHE License](LICENSE)
 
 [Contribution Guideline](CONTRIBUTING.md)
