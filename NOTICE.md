@@ -1,6 +1,6 @@
 # OSS Notice | AN-frontend-manager #
 
-Copyright (c) 2022 KNUD4. All rights reserved.
+This application is Copyright © KNUD4. All rights reserved.
 
 The following sets forth attribution notices for third party software that may be contained in this application.
 
@@ -168,7 +168,7 @@ BSD 2-Clause "Simplified" License
 
 https://github.com/Hermanya/use-interval
 
-Copyright hermanya
+Copyright Herman <hermanstarikov@gmail.com> (https://hermanya.github.io)
 
 MIT License
 
@@ -192,6 +192,7 @@ MIT License
 
 https://github.com/aleclarson/vite-tsconfig-paths
 
-Copyright aleclarson
+Copyright Alec Larson
 
 MIT License
+
