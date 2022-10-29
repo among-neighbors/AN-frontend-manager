@@ -86,7 +86,9 @@ const Comment: React.FC<CommentProps> = ({ type, accessToken, boardId, profileDa
   const getComments = async (type: string, boardId: string) => {
     const res = await myAxios(
       'get',
-      `${commentAPIbyType[type]}${boardId}?page=1&count=500`,
+      `${
+        commentAPIbyType[type === 'complaint' ? 'complaintComment' : type]
+      }${boardId}?page=1&count=500`,
       null,
       true,
       accountAccessToken,
@@ -97,7 +99,7 @@ const Comment: React.FC<CommentProps> = ({ type, accessToken, boardId, profileDa
   const handleDeleteComment = async (commentId: number) => {
     await myAxios(
       'delete',
-      `${commentAPIbyType[type]}${commentId}`,
+      `${commentAPIbyType[type === 'complaint' ? 'complaintComment' : type]}${commentId}`,
       null,
       true,
       profileAccessToken,
@@ -147,6 +149,7 @@ const Comment: React.FC<CommentProps> = ({ type, accessToken, boardId, profileDa
 const commentAPIbyType: Obj<string> = {
   notice: `api/v1/comments/notices/`,
   complaint: `api/v1/manager/comments/reports/`,
+  complaintComment: `api/v1/comments/reports/`,
   community: `api/v1/comments/communities/`,
 };
 
