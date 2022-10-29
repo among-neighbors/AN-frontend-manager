@@ -21,7 +21,12 @@ import {
 import { ListPageProps } from './interface';
 import { APIbyType, handledDate } from '~/others/integrateVariable';
 
-const ListPage = ({ type, accountAccessToken, isReadyForRequestAPI }: ListPageProps) => {
+const ListPage = ({
+  type,
+  accountAccessToken,
+  profileAccessToken,
+  isReadyForRequestAPI,
+}: ListPageProps) => {
   const location = useLocation();
   const [tableData, setTableData] = useState<TableDataProps>({
     list: [],
@@ -46,9 +51,8 @@ const ListPage = ({ type, accountAccessToken, isReadyForRequestAPI }: ListPagePr
       `${APIbyType[type]}${querys[type]}`,
       null,
       true,
-      accountAccessToken,
+      profileAccessToken,
     );
-    console.log(`${APIbyType[type]}${querys[type]}`);
     setTableData(res.data.response);
   };
 
@@ -126,6 +130,7 @@ const buttonTextByType: Obj<string> = {
 const mapStateToProps = (state: RootState) => {
   return {
     accountAccessToken: state.accessTokenReducer.accountAccessToken,
+    profileAccessToken: state.accessTokenReducer.profileAccessToken,
     isReadyForRequestAPI: state.readyForRequestAPIReducer,
   };
 };

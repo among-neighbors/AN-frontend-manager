@@ -146,7 +146,7 @@ const Comment: React.FC<CommentProps> = ({ type, accessToken, boardId, profileDa
 
 const commentAPIbyType: Obj<string> = {
   notice: `api/v1/comments/notices/`,
-  complaint: `api/v1/comments/reports/`,
+  complaint: `api/v1/manager/comments/reports/`,
   community: `api/v1/comments/communities/`,
 };
 
