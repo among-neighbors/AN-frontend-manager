@@ -21,12 +21,7 @@ import {
 import { ListPageProps } from './interface';
 import { APIbyType, handledDate } from '~/others/integrateVariable';
 
-const ListPage = ({
-  type,
-  accountAccessToken,
-  profileAccessToken,
-  isReadyForRequestAPI,
-}: ListPageProps) => {
+const ListPage = ({ type, profileAccessToken, isReadyForRequestAPI }: ListPageProps) => {
   const location = useLocation();
   const [tableData, setTableData] = useState<TableDataProps>({
     list: [],
