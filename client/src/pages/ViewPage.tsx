@@ -15,6 +15,7 @@ import {
 } from '~/others/integrateInterface';
 import { connect } from 'react-redux';
 import { accessTokenState, RootState } from '~/others/store';
+import { MANAGER_HOUSENAME } from '~/others/integrateVariable';
 
 interface ViewPageProps {
   type: string;
@@ -41,9 +42,7 @@ const ViewPage = ({ type, accessToken, isReadyForRequestAPI }: ViewPageProps) =>
 
   useEffect(() => {
     if (!isReadyForRequestAPI) return;
-    const [pre, type, id] = location.pathname.split('/');
-    pre;
-    type;
+    const id = location.pathname.split('/')[2];
     getViewData(id);
   }, [isReadyForRequestAPI]);
 
@@ -70,9 +69,9 @@ const ViewPage = ({ type, accessToken, isReadyForRequestAPI }: ViewPageProps) =>
       const { writer, scope, category } = viewData;
       setBoardData({
         ...commonViewData,
-        writer: `${writer.lineName === '000' ? `` : `${writer.lineName}동 ${writer.houseName}호 `}${
-          writer.name
-        }`,
+        writer: `${
+          writer.houseName === MANAGER_HOUSENAME ? `` : `${writer.lineName} ${writer.houseName} `
+        }${writer.name}`,
         scope,
         category,
       });
@@ -82,7 +81,7 @@ const ViewPage = ({ type, accessToken, isReadyForRequestAPI }: ViewPageProps) =>
     const { writer } = viewData;
     setBoardData({
       ...commonViewData,
-      writer: `${writer.lineName}동 ${writer.houseName}호`,
+      writer: `${writer.lineName} ${writer.houseName}`,
     });
   }, [viewData]);
 
