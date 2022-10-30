@@ -10,6 +10,8 @@ import { shadowCssForMUI } from '~/others/cssLibrary';
 import { useNavigate } from 'react-router';
 import { handleRefreshAccountAccessToken, handleRefreshProfileAccessToken } from '~/others/store';
 import myAxios from '~/others/myAxios';
+import { AxiosError } from 'axios';
+import { CustomAxiosResponse } from '~/others/integrateInterface';
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
@@ -25,8 +27,9 @@ const SignIn: React.FC = () => {
       handleRefreshAccountAccessToken(res.data.response.account.accessToken);
       handleRefreshProfileAccessToken(res.data.response.profile.accessToken);
       navigate('/');
-    } catch (err) {
-      alert(err);
+    } catch (error) {
+      const err = error as AxiosError;
+      alert((err.response as CustomAxiosResponse).data.message);
     }
   };
 

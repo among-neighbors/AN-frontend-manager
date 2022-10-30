@@ -41,6 +41,8 @@ const ColorsByProfileIndex = [
   '#D98D62',
 ];
 
+const MANAGER_HOUSENAME = '000';
+
 export {
   APIbyType,
   managerAPIbyType,
@@ -48,4 +50,5 @@ export {
   handledDate,
   stringByCategory,
   ColorsByProfileIndex,
+  MANAGER_HOUSENAME,
 };

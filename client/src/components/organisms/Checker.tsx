@@ -63,7 +63,7 @@ const Checker: React.FC<CheckerProps> = ({ accessTokenState }) => {
     if (accountAccessToken !== '' && profileAccessToken !== '') {
       if (location.pathname === '/sign') navigate('/');
     }
-  }, [accountKey, profileKey, location.pathname]);
+  }, [accountKey, profileKey, accountAccessToken, profileAccessToken, location.pathname]);
 
   useInterval(checkAccountLogin, accountAccessToken === '' ? null : TIME_FOR_REFRESH_TOKEN);
   useInterval(checkProfileLogin, profileAccessToken === '' ? null : TIME_FOR_REFRESH_TOKEN);
