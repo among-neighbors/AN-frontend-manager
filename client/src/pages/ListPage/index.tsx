@@ -65,7 +65,15 @@ const ListPage = ({ type, profileAccessToken, isReadyForRequestAPI }: ListPagePr
         <></>
       )}
       {type === 'notice' || type === 'community' ? (
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'right', paddingRight: '20px' }}>
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'right',
+            paddingRight: '20px',
+            maxWidth: '1500px',
+          }}
+        >
           <Button component={Link} to={`/${type}/writing`} variant='contained'>
             {buttonTextByType[type]}
           </Button>
@@ -112,7 +120,7 @@ const handleList = (list: DeliverdTypePostDataArray): ProcessedTypePostDataArray
       title,
       content,
       date: handledDate(createdDate),
-      writer: `${writer.lineName}동 ${writer.houseName}호`,
+      writer: `${writer.lineName} ${writer.houseName}`,
     };
   });
 };

@@ -4,7 +4,12 @@ import {
   isProcessedCommunityPostData,
 } from '~/others/integrateInterface';
 import { TableRowForMobileProps, TableRowForCommentProps } from './interface';
-import { stringByScope, stringByCategory, handledDate } from '~/others/integrateVariable';
+import {
+  stringByScope,
+  stringByCategory,
+  handledDate,
+  MANAGER_HOUSENAME,
+} from '~/others/integrateVariable';
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
@@ -29,7 +34,6 @@ const TableRowForMobile: React.FC<TableRowForMobileProps> = ({ row }) => {
     );
   }
 
-  // Complaint
   return (
     <StyledTableRowForMobile>
       <div>{row.title}</div>
@@ -40,7 +44,6 @@ const TableRowForMobile: React.FC<TableRowForMobileProps> = ({ row }) => {
 
 const TableRowForComment: React.FC<TableRowForCommentProps> = ({ commentData }) => {
   const {
-    // id,
     writer: { name, houseName, lineName },
     text,
     createdDate,
@@ -52,9 +55,9 @@ const TableRowForComment: React.FC<TableRowForCommentProps> = ({ commentData }) 
           return <Typography key={index}>{str}</Typography>;
         })}
       </Box>
-      <p>{`${lineName === '000' ? `` : `${lineName}동 ${houseName}호 `}${name} | ${handledDate(
-        createdDate,
-      )}`}</p>
+      <p>{`${
+        houseName === MANAGER_HOUSENAME ? `` : `${lineName} ${houseName} `
+      }${name} | ${handledDate(createdDate)}`}</p>
     </StyledTableRowForComment>
   );
 };
